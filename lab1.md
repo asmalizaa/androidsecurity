@@ -27,3 +27,70 @@ The application reads all the SMS from any Android device and displays the sende
 7. Open the **activity_read_sms** in "Design" mode.
 8. Delete the "Hello World" TextView.
 9. Open file "activity_read_sms" in "Text" mode, and then change the activity layout of activity_read_sms.xml from ConstraintLayout to RelativeLayout by replacing the gray highlighted part of the following code with RelativeLayout.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReadSMS">
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+10. The **activity_read_sms** file will be as follows:
+    
+```
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReadSMS">
+
+</RelativeLayout>
+```
+
+11. Add three **TextView** inside the "RelativeLayout": one for the **SMS sender** details, the second for the **SMS Content** and the third for **Date details**, as illustrated in the following code.
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReadSMS">
+
+    <TextView
+        android:id="@+id/sms_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/sms_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/sms_origin"/>
+
+    <TextView
+        android:id="@+id/sms_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/sms_body"/>
+
+  </RelativeLayout>
+```
