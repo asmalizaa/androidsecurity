@@ -94,3 +94,13 @@ The application reads all the SMS from any Android device and displays the sende
 
   </RelativeLayout>
 ```
+
+**Note:** It is not necessary to set the location of each TextView widget because you need to refer to these widgets using their IDs only.
+
+12. Open the **ReadSMS.kt** file as illustrated in the following figure:
+
+     ![image](https://github.com/user-attachments/assets/75c3b8e9-93e0-4578-9719-5368383d7771)
+
+13. Change the **ReadSMS** activity parent class to **ListActivity** as illustrated in the following code:
+
+
