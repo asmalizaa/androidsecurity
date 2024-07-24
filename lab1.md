@@ -103,4 +103,94 @@ The application reads all the SMS from any Android device and displays the sende
 
 13. Change the **ReadSMS** activity parent class to **ListActivity** as illustrated in the following code:
 
+```
+package androidatc.com
+
+import android.app.ListActivity
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+
+class ReadSMS : ListActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_read_sms)
+    }
+}
+```
+
+14. Create a constant Uri property (variable) inside the **ReadSMS** file called **SMS** as follows:
+
+```
+val SMS = Uri.parse("content://sms")
+```
+
+15. Create a constant int property (variable) inside the **ReadSMS** Kotlin file called **PERMISSIONS_REQUEST_READ_SMS**, and give it a value of **1**. We will use this property when we request the **READ_SMS** permission ina code as follows:
+
+```
+val PERMISSIONS_REQUEST_READ_SMS = 1
+```
+
+16. Create a singleton class called **SmsColumns** inside the ReadSMS activity. This class contains four constant String values that define the details of an SMS read from the device. See below the updated codes.
+
+```
+class ReadSMS : ListActivity() {
+
+    val SMS = Uri.parse("content://sms")
+    val PERMISSIONS_REQUEST_READ_SMS = 1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_read_sms)
+    }
+
+    object SmsColumns {
+        val ID = "_ID"
+        val ADDRESS = "address"
+        val DATE = "date"
+        val BODY = "body"
+    }
+}
+```
+
+17. Within the ReadSMS activity, create a private inner-class called **SmsCursorAdapter**. This new class should extend from CursorAdapter. The purpose of this class is to bind the views (widgets) to the corresponding data from the cursor.
+
+```
+    private inner class SmsCursorAdapter (context:Context, c: Cursor, autoRequery:Boolean) : CursorAdapter(context, c, autoRequery){
+        override fun newView(context: Context?, cursor: Cursor?, parent: ViewGroup?): View {
+            return View.inflate(context, R.layout.activity_read_sms, null)
+        }
+
+        override fun bindView(view: View?, context: Context?, cursor: Cursor?) {
+            view?.findViewById<TextView>(R.id.sms_origin)?.text = cursor?.getString(cursor.getColumnIndexOrThrow(SmsColumns.ADDRESS))
+            view?.findViewById<TextView>(R.id.sms_body)?.text = cursor?.getString(cursor.getColumnIndexOrThrow(SmsColumns.BODY))
+            view?.findViewById<TextView>(R.id.sms_date)?.text = cursor?.getString(cursor.getColumnIndexOrThrow(SmsColumns.DATE)).toString()
+        }
+
+    }
+```
+
+18. Create a private method called **readSMS()**, and configure it to create a cursor containing the SMS data present on the device as shown below.
+
+```
+    private fun readSMS() {
+        val cursor = contentResolver.query(SMS, arrayOf(SmsColumns.ID, SmsColumns.ADDRESS, SmsColumns.DATE, SmsColumns.BODY), null, null, SmsColumns.DATE + " DESC")
+        val adapter = cursor?.let { SmsCursorAdapter(this, it, true) }
+        listAdapter = adapter
+    }
+```
+
+19. Now read the SMS data in the onCreate() method by calling readSMS(). Your onCreate() should look like below.
+
+```
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_read_sms)
+        readSMS()
+    }
+```
+
+20. Run the application. You will see an error similar to the following in the console.
 
